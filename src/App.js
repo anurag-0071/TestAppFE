@@ -1,24 +1,95 @@
 import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
+import ContentArray from './Content';
+import Toolbar from "./ToolBar";
 
 function App() {
+
+  const [style, setStyle] = React.useState("None");
+  const [size, setSize] = React.useState("medium");
+  const [color, setColor] = React.useState("black");
+
+  const handleStyleChange = (event) => {
+    setStyle(event.target.value);
+  };
+
+  const handleSizeChange = (event) => {
+    setSize(event.target.value);
+  };
+
+  const handleColorChange = (event) => {
+    setColor(event.target.value);
+  }
+
+  const getStyledContent = (item) => {
+    switch (style) {
+      case "Bold":
+        return (
+          <b>
+            <p>
+              {item}
+            </p>
+          </b>
+        )
+
+      case "Italic":
+        return (
+          <i>
+            <p>
+              {item}
+            </p>
+          </i>
+        )
+      case "Underline":
+        return (
+          <u>
+            <p>
+              {item}
+            </p>
+          </u>
+        )
+      default:
+        return (
+          <p>
+            {item}
+          </p>
+        )
+    }
+  }
+
   return (
-    <div className="App">
+    <div >
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Deception Point
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <Toolbar
+        style={style}
+        size={size}
+        color={color}
+        handleStyleChange={handleStyleChange}
+        handleSizeChange={handleSizeChange}
+        handleColorChange={handleColorChange}
+      />
+
+      <body className="App-body"
+        style={{
+          fontSize: size,
+          color: color,
+
+        }}
+      >
+        <p>
+
+        </p>
+        {ContentArray.map(item => (
+          <p>
+            {getStyledContent(item)}
+          </p>
+        ))}
+      </body>
     </div>
   );
 }
